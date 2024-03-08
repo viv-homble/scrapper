@@ -22,7 +22,7 @@ def parse_blinkit():
     product_container = soup.find_all(attrs={'id': 'plpListId'})
     products = list(product_container[0].children)[0]
 
-    with open('csv/blinkit.csv', 'a', newline='', encoding='utf-8') as csvfile:
+    with open('csv/blinkit.csv', 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
         get_delivery_time = index_of_pattern('min')
 
@@ -46,7 +46,7 @@ def parse_zepto():
     soup = BeautifulSoup(html_content, 'html.parser')
     product_container = soup.find_all('a', attrs={'class': 'product-card_card__zy0gz'})
 
-    with open('csv/zepto.csv', 'a', newline='', encoding='utf-8') as csvfile:
+    with open('csv/zepto.csv', 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
         get_offer = index_of_pattern('Off')
 
@@ -66,7 +66,7 @@ def parse_bb():
     soup = BeautifulSoup(html_content, 'html.parser')
     product_container = soup.findAll('li', attrs={'class': 'PaginateItems___StyledLi2-sc-1yrbjdr-1 kUiNOF'})
 
-    with open('csv/bb.csv', 'a', newline='', encoding='utf-8') as csvfile:
+    with open('csv/bb.csv', 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
 
         for product in product_container:
@@ -89,7 +89,7 @@ def parse_instamart():
     soup = BeautifulSoup(html_content, 'html.parser')
     product_container = soup.findAll('div', attrs={'class': 'K0-3A _30Qfj'})
 
-    with open('csv/instamart.csv', 'a', newline='', encoding='utf-8') as csvfile:
+    with open('csv/instamart.csv', 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
 
         for product in product_container:
