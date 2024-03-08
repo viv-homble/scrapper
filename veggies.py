@@ -34,7 +34,7 @@ def parse_blinkit():
         html_content = file.read()
     soup = BeautifulSoup(html_content, 'html.parser')
     product_container = soup.find_all(attrs={'id': 'plpListId'})
-    products = list(product_container[0].children)[1]
+    products = list(product_container[0].children)[0]
 
     with open('csv/blinkit.csv', 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
