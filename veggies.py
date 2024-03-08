@@ -104,6 +104,8 @@ def parse_instamart():
                     parsed_item = [parsed_item[0]] + [' '.join(parsed_item[1:-3])] + parsed_item[-3:]
                 else:
                     parsed_item = [parsed_item[0]] + [' '.join(parsed_item[2:-3])] + parsed_item[-3:]
+            parsed_item[0] = ' '.join(parsed_item[0].strip().split())
+            parsed_item[1] = ' '.join(parsed_item[1].strip().split())
             writer.writerow(parsed_item)
 
 
