@@ -20,7 +20,7 @@ def parse_blinkit():
         html_content = file.read()
     soup = BeautifulSoup(html_content, 'html.parser')
     product_container = soup.find_all(attrs={'id': 'plpListId'})
-    products = list(product_container[0].children)[0]
+    products = list(product_container[0].children)[1]
 
     with open('csv/blinkit.csv', 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
@@ -28,6 +28,8 @@ def parse_blinkit():
 
         for product in products:
             item = list(product.stripped_strings)
+            if not item:
+                continue
             while item[-1] in ['ADD', '2 options']:
                 item.pop()
             if item[0] == 'Out of Stock':
@@ -37,6 +39,7 @@ def parse_blinkit():
             item = item[get_delivery_time(item) + 1:]
             if len(item) == 4:
                 item = item[:3] + item[2:]
+            item[0] = ' '.join(item[0].strip().split())
             writer.writerow(item)
 
 
