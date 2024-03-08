@@ -93,7 +93,7 @@ def parse_bb():
                 item[-1] = SOLD_OUT
             elif item[-1] == 'Add':
                 item[-1] = IN_STOCK
-            item = item[3:]
+            item = item[2:]
             if len(item) > 5:
                 item = item[:4] + item[5:]
             if len(item) == 4:
