@@ -15,6 +15,20 @@ def is_portion(desc):
     return any(char.isdigit() for char in desc)
 
 
+def remove_currency(amount):
+    return amount if amount[0].isdigit() else amount[1:]
+
+
+def clean_item(item):
+    return [
+        ' '.join(item[0].strip().split()),
+        ' '.join(item[1].strip().split()),
+        remove_currency(item[2]),
+        remove_currency(item[3]),
+        item[4]
+    ]
+
+
 def parse_blinkit():
     with open('html/blinkit.html', 'r', encoding='utf-8') as file:
         html_content = file.read()
@@ -39,7 +53,7 @@ def parse_blinkit():
             item = item[get_delivery_time(item) + 1:]
             if len(item) == 4:
                 item = item[:3] + item[2:]
-            item[0] = ' '.join(item[0].strip().split())
+            item = clean_item(item)
             writer.writerow(item)
 
 
@@ -60,6 +74,7 @@ def parse_zepto():
             elif item[-1] == 'Add':
                 item[-1] = IN_STOCK
             item = item[get_offer(item) + 1:]
+            item = clean_item(item)
             writer.writerow(item)
 
 
@@ -83,6 +98,7 @@ def parse_bb():
                 item = item[:4] + item[5:]
             if len(item) == 4:
                 item = item[:3] + item[2:]
+            item = clean_item(item)
             writer.writerow(item)
 
 
@@ -107,9 +123,8 @@ def parse_instamart():
                     parsed_item = [parsed_item[0]] + [' '.join(parsed_item[1:-3])] + parsed_item[-3:]
                 else:
                     parsed_item = [parsed_item[0]] + [' '.join(parsed_item[2:-3])] + parsed_item[-3:]
-            parsed_item[0] = ' '.join(parsed_item[0].strip().split())
-            parsed_item[1] = ' '.join(parsed_item[1].strip().split())
-            writer.writerow(parsed_item)
+            item = clean_item(parsed_item)
+            writer.writerow(item)
 
 
 try:
