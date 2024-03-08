@@ -37,7 +37,6 @@ def parse_blinkit():
             item = item[get_delivery_time(item) + 1:]
             if len(item) == 4:
                 item = item[:3] + item[2:]
-            print(item)
             writer.writerow(item)
 
 
@@ -58,7 +57,6 @@ def parse_zepto():
             elif item[-1] == 'Add':
                 item[-1] = IN_STOCK
             item = item[get_offer(item) + 1:]
-            print(item)
             writer.writerow(item)
 
 
@@ -82,7 +80,6 @@ def parse_bb():
                 item = item[:4] + item[5:]
             if len(item) == 4:
                 item = item[:3] + item[2:]
-            print(item)
             writer.writerow(item)
 
 
@@ -107,7 +104,6 @@ def parse_instamart():
                     parsed_item = [parsed_item[0]] + [' '.join(parsed_item[1:-3])] + parsed_item[-3:]
                 else:
                     parsed_item = [parsed_item[0]] + [' '.join(parsed_item[2:-3])] + parsed_item[-3:]
-            print(parsed_item)
             writer.writerow(parsed_item)
 
 
