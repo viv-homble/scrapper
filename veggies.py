@@ -16,15 +16,17 @@ def is_portion(desc):
 
 
 def remove_currency(amount):
-    return amount if amount[0].isdigit() else amount[1:]
+    return float(amount) if amount[0].isdigit() else float(amount[1:])
 
 
 def clean_item(item):
+    p1 = remove_currency(item[2])
+    p2 = remove_currency(item[3])
     return [
         ' '.join(item[0].strip().split()),
         ' '.join(item[1].strip().split()),
-        remove_currency(item[2]),
-        remove_currency(item[3]),
+        max(p1, p2),
+        min(p1, p2),
         item[4]
     ]
 
