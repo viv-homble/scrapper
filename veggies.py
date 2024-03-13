@@ -1,6 +1,37 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import csv
+
+
+from google.oauth2.service_account import Credentials
+from googleapiclient.discovery import build
+
+SERVICE_ACCOUNT_FILE = 'C:\\Users\\Varshith Reddy\\Desktop\\auto-open-links-0a3c589a5f92.json'
+
+SPREADSHEET_ID = '1Zpeay-tdN4djcl3yrCClg3Gj3iOcZd5UjM53mHPISFg'
+
+scopes = ['https://www.googleapis.com/auth/spreadsheets']
+credentials = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=scopes)
+service = build('sheets', 'v4', credentials=credentials)
+
+def append_data_from_csv(csv_file_path, sheet_name):
+    with open(csv_file_path, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        data = list(reader)
+
+    range_name = f'{sheet_name}!A1'  # Append at the beginning of the chosen sheet
+    request = service.spreadsheets().values().append(
+        spreadsheetId=SPREADSHEET_ID,
+        range=range_name,
+        valueInputOption='RAW',
+        insertDataOption='INSERT_ROWS',
+        body={'values': data}
+    )
+    response = request.execute()
+    print(f'Data appended to {sheet_name}:', response)
+
+
 
 
 SOLD_OUT = 'Sold Out'
@@ -38,7 +69,7 @@ def parse_blinkit():
     product_container = soup.find_all(attrs={'id': 'plpListId'})
     products = list(product_container[0].children)[0]
 
-    with open('csv/blinkit.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    with open('csv/blinkit.csv', 'w', newline='', encoding='utf-8',errors = 'ignore') as csvfile:
         writer = csv.writer(csvfile)
         get_delivery_time = index_of_pattern('min')
 
@@ -132,6 +163,7 @@ def parse_instamart():
 try:
     print('Scraping Blinkit...')
     parse_blinkit()
+    append_data_from_csv('csv/blinkit.csv', 'Blinkit')
     print('\033[92mSuccesfully scraped Blinkit!\033[0m')
 except Exception as e:
     print("\033[91mError Pasrsing Blinkit!\033[0m", e)
@@ -140,6 +172,7 @@ except Exception as e:
 try:
     print('Scraping Zepto...')
     parse_zepto()
+    append_data_from_csv('csv/zepto.csv', 'Zepto')
     print('\033[92mSuccesfully scraped Zepto!\033[0m')
 except Exception as e:
     print("\033[91mError Pasrsing Zepto!\033[0m", e)
@@ -148,6 +181,7 @@ except Exception as e:
 try:
     print('Scraping BigBasket...')
     parse_bb()
+    append_data_from_csv('csv/bb.csv', 'BigBasket')
     print('\033[92mSuccesfully scraped BigBasket!\033[0m')
 except Exception as e:
     print("\033[91mError Pasrsing BigBasket!\033[0m", e)
@@ -156,6 +190,20 @@ except Exception as e:
 try:
     print('Scraping Instamart...')
     parse_instamart()
+    append_data_from_csv('csv/instamart.csv', 'Instamart')
     print('\033[92mSuccesfully scraped Instamart!\033[0m')
 except Exception as e:
     print("\033[91mError Pasrsing Instamart!\033[0m", e)
+
+
+# At the end of parse_blinkit()
+
+
+# At the end of parse_zepto()
+
+
+# At the end of parse_bb()
+
+
+# At the end of parse_instamart()
+
