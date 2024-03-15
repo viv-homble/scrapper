@@ -51,15 +51,18 @@ def remove_currency(amount):
 
 
 def clean_item(item):
-    p1 = remove_currency(item[2])
-    p2 = remove_currency(item[3])
-    return [
-        ' '.join(item[0].strip().split()),
-        ' '.join(item[1].strip().split()),
-        max(p1, p2),
-        min(p1, p2),
-        item[4]
-    ]
+    try:
+        p1 = remove_currency(item[2])
+        p2 = remove_currency(item[3])
+        return [
+            ' '.join(item[0].strip().split()),
+            ' '.join(item[1].strip().split()),
+            max(p1, p2),
+            min(p1, p2),
+            item[4]
+        ]
+    except Exception:
+        return []
 
 
 def parse_blinkit():
@@ -87,7 +90,8 @@ def parse_blinkit():
             if len(item) == 4:
                 item = item[:3] + item[2:]
             item = clean_item(item)
-            writer.writerow(item)
+            if item:
+                writer.writerow(item)
 
 
 def parse_zepto():
@@ -108,7 +112,8 @@ def parse_zepto():
                 item[-1] = IN_STOCK
             item = item[get_offer(item) + 1:]
             item = clean_item(item)
-            writer.writerow(item)
+            if item:
+                writer.writerow(item)
 
 
 def parse_bb():
@@ -132,7 +137,8 @@ def parse_bb():
             if len(item) == 4:
                 item = item[:3] + item[2:]
             item = clean_item(item)
-            writer.writerow(item)
+            if item:
+                writer.writerow(item)
 
 
 def parse_instamart():
@@ -157,7 +163,8 @@ def parse_instamart():
                 else:
                     parsed_item = [parsed_item[0]] + [' '.join(parsed_item[2:-3])] + parsed_item[-3:]
             item = clean_item(parsed_item)
-            writer.writerow(item)
+            if item:
+                writer.writerow(item)
 
 
 try:
