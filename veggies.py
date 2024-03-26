@@ -1,13 +1,10 @@
-import requests
+import csv
+
 from bs4 import BeautifulSoup
-import csv
-import csv
-
-
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
-SERVICE_ACCOUNT_FILE = 'C:\\Users\\Varshith Reddy\\Desktop\\auto-open-links-0a3c589a5f92.json'
+SERVICE_ACCOUNT_FILE = 'auto-open-links-0a3c589a5f92.json'
 
 SPREADSHEET_ID = '1Zpeay-tdN4djcl3yrCClg3Gj3iOcZd5UjM53mHPISFg'
 
