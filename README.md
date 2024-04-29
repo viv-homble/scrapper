@@ -1,3 +1,4 @@
 # Homble Scrapper
 
-A tool for scraping online market place for prices of products
+A tool for scraping online market place for prices of edible products
+
